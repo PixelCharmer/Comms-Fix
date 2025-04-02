@@ -1,6 +1,5 @@
 import WiringPuzzle from "./components/WiringPuzzle";
 import FrequencyDial from "./components/FrequencyDial";
-import SuccessMessage from "./components/SuccessMessage";
 import { useGameStore } from "./store";
 import "./styles.css";
 
