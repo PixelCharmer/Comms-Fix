@@ -1,0 +1,99 @@
+/* Make sure the body is structured properly */
+body {
+    background: #111;
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh; /* Ensure it takes full height including scrolling */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Style for the game title and instructions at the top */
+.game-header {
+    text-align: center;
+    width: 80%;
+    max-width: 600px;
+    margin-bottom: 20px;
+}
+
+/* Center the game container on the page */
+.puzzle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    max-width: 600px;
+    padding: 20px;
+    background: #222;
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    text-align: center;
+    /* Bright blue glow effect */
+    box-shadow: 0 0 20px 5px rgba(0, 153, 255, 1);
+}
+
+/* Arrange wires and ports horizontally */
+.wiring-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    margin-top: 20px;
+}
+
+/* Stack wires and ports vertically */
+.wires, .ports {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Buttons styling */
+button {
+    margin: 5px;
+    padding: 10px 15px;
+    background: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+    button:hover {
+        opacity: 0.8;
+    }
+
+/* Notes section aligned normally below the game */
+.notes {
+    text-align: left;
+    margin: 20px auto;
+    width: 80%;
+    max-width: 600px;
+    background: #333;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Styling for frequency dial to ensure it appears */
+.frequency-dial {
+    visibility: visible; /* Ensure it's not hidden */
+    opacity: 1; /* Make sure it's visible */
+    display: block; /* Ensure it’s not display:none */
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+p {
+    font-size: 18px;
+    margin-top: 10px;
+}
