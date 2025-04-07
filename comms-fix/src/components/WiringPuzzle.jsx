@@ -1,28 +1,26 @@
 ﻿import { useState } from "react";
 import { useGameStore } from "../store";
-import FrequencyDial from "./FrequencyDial";  // Now using buttons for frequency selection
+import FrequencyDial from "./FrequencyDial";
 import "../styles.css";
 
-// Wires with one incorrect wire (trap)
 const wires = [
-    { id: "145.7", color: "grey", correctPort: "MHz", isCorrect: true },
-    { id: "98.5", color: "grey", correctPort: "GHz", isCorrect: true },
-    { id: "210.3", color: "grey", correctPort: "GHz", isCorrect: false },
-    { id: "121.5", color: "grey", correctPort: "MHz", isCorrect: false },
-    { id: "446.8", color: "grey", correctPort: "kHz", isCorrect: true },
-    { id: "258.4", color: "grey", correctPort: "kHz", isCorrect: false },
+    { id: "145.7", correctPort: "MHz", isCorrect: true },
+    { id: "98.5", correctPort: "GHz", isCorrect: true },
+    { id: "210.3", correctPort: "GHz", isCorrect: false },
+    { id: "121.5", correctPort: "MHz", isCorrect: false },
+    { id: "446.8", correctPort: "kHz", isCorrect: true },
+    { id: "258.4", correctPort: "kHz", isCorrect: false },
 ];
 
-const ports = [
-    { id: "GHz", color: "navy" },
-    { id: "kHz", color: "navy" },
-    { id: "MHz", color: "navy" },
-];
+const ports = ["GHz", "kHz", "MHz"];
+
+const connectionColorsList = ["pink", "orange", "violet", "cyan"];
 
 function WiringPuzzle() {
     const { setWiring } = useGameStore();
     const [selectedWire, setSelectedWire] = useState(null);
     const [connections, setConnections] = useState({});
+    const [connectionColors, setConnectionColors] = useState({});
     const [isWiringCorrect, setIsWiringCorrect] = useState(false);
     const [showHints, setShowHints] = useState(false);
 
@@ -31,10 +29,22 @@ function WiringPuzzle() {
     };
 
     const handlePortSelect = (portId) => {
-        if (selectedWire) {
-            setConnections((prev) => ({ ...prev, [selectedWire]: portId }));
-            setSelectedWire(null);
-        }
+        if (!selectedWire) return;
+
+        // Prevent multiple wires to same port
+        const alreadyConnected = Object.values(connections).includes(portId);
+        if (alreadyConnected) return;
+
+        const newConnections = { ...connections, [selectedWire]: portId };
+
+        // Assign a new color for this connection
+        const usedColors = Object.values(connectionColors);
+        const availableColor = connectionColorsList.find(c => !usedColors.includes(c)) || "grey";
+        const newConnectionColors = { ...connectionColors, [selectedWire]: availableColor, [portId]: availableColor };
+
+        setConnections(newConnections);
+        setConnectionColors(newConnectionColors);
+        setSelectedWire(null);
     };
 
     const validateWiring = () => {
@@ -45,10 +55,8 @@ function WiringPuzzle() {
         };
 
         let allCorrect = true;
-
         for (const [wire, port] of Object.entries(connections)) {
-            const trimmedWire = wire.trim();  // Remove any spaces
-            if (correctConnections[trimmedWire] !== port) {
+            if (correctConnections[wire.trim()] !== port) {
                 allCorrect = false;
             }
         }
@@ -67,6 +75,7 @@ function WiringPuzzle() {
 
     const resetPuzzle = () => {
         setConnections({});
+        setConnectionColors({});
         setSelectedWire(null);
         setIsWiringCorrect(false);
         setShowHints(false);
@@ -81,10 +90,10 @@ function WiringPuzzle() {
                 <div className="notes">
                     <h3>Notes</h3>
                     <ul>
-                        <li><strong>Note 1:</strong> Frequency Range: Each wire must be connected to the correct frequency. Make sure you’re aligning the right wire with its port—watch out for the traps!</li>
-                        <li><strong>Note 2:</strong> Wires in Disguise: Not all wires are as they seem. Some of them are faulty. Be careful while connecting, as a faulty connection is blow up!</li>
-                        <li><strong>Note 3:</strong> Matching Numbers: A true connection is made when the frequency number on the wire matches the frequency unit on the port. 145.7 should go to MHz, but what about the others?</li>
-                        <li><strong>Note 3:</strong> Completion Check: To complete the puzzle, you must connect three wires to their correct ports. But remember, each port can only handle one connection.</li>
+                        <li><strong>Note 1:</strong> Frequency Range: Each wire must be connected to the correct frequency.</li>
+                        <li><strong>Note 2:</strong> Wires in Disguise: Some are faulty—watch out!</li>
+                        <li><strong>Note 3:</strong> Matching Numbers: Wire and port need to match correctly.</li>
+                        <li><strong>Note 4:</strong> Completion Check: Connect 3 wires correctly. Only one wire per port!</li>
                     </ul>
                 </div>
             )}
@@ -95,7 +104,7 @@ function WiringPuzzle() {
                         <button
                             key={wire.id}
                             className={`wire ${selectedWire === wire.id ? "selected" : ""}`}
-                            style={{ backgroundColor: wire.color }}
+                            style={{ backgroundColor: connectionColors[wire.id] || "grey" }}
                             onClick={() => handleWireSelect(wire.id)}
                         >
                             {wire.id}
@@ -104,14 +113,14 @@ function WiringPuzzle() {
                 </div>
 
                 <div className="ports">
-                    {ports.map((port) => (
+                    {ports.map((portId) => (
                         <button
-                            key={port.id}
-                            className={`port ${connections[port.id] ? "connected" : ""}`}
-                            style={{ backgroundColor: port.color }}
-                            onClick={() => handlePortSelect(port.id)}
+                            key={portId}
+                            className="port"
+                            style={{ backgroundColor: connectionColors[portId] || "navy" }}
+                            onClick={() => handlePortSelect(portId)}
                         >
-                            {port.id} {Object.keys(connections).find((w) => connections[w] === port.id) && "✔"}
+                            {portId} {Object.values(connections).includes(portId) && "✔"}
                         </button>
                     ))}
                 </div>
@@ -120,7 +129,6 @@ function WiringPuzzle() {
             <button onClick={validateWiring}>Check Wiring</button>
             <button onClick={resetPuzzle}>Reset Puzzle</button>
 
-            {/* Only show the Frequency Dial Puzzle if the wiring is correct */}
             {isWiringCorrect && <FrequencyDial />}
         </div>
     );
