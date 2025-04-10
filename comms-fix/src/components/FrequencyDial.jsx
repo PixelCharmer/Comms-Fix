@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
 function FrequencyDial() {
-    const [selectedStation, setSelectedStation] = useState("WTCY"); // Default station
+    const [selectedStation, setSelectedStation] = useState("KQMR"); // Default station
     const [isCorrect, setIsCorrect] = useState(null);
     const [hasSubmitted, setHasSubmitted] = useState(false);
 
-    const stations = ["WTCY", "WHGB", "WNNK", "WXYZ"];
-    const correctStation = "WNNK";
+    const stations = ["KQMR", "WHGB", "KWXY", "WJLX"];
+    const correctStation = "WHGB";
 
     const handleButtonClick = (station) => {
         setSelectedStation(station);
@@ -22,7 +22,7 @@ function FrequencyDial() {
     };
 
     const resetFrequency = () => {
-        setSelectedStation("WTCY");
+        setSelectedStation("KQMR");
         setIsCorrect(null);
         setHasSubmitted(false);
     };
@@ -38,7 +38,7 @@ function FrequencyDial() {
                         key={station}
                         onClick={() => handleButtonClick(station)}
                         style={{
-                            backgroundColor: selectedStation === station ? "#D3B0FF" : "#D3B0FF",  // Light Purple
+                            backgroundColor: selectedStation === station ? "#5ca2db" : "#5cdbbe",  // Light Purple
                             color: "black",  // Text color
                             border: "none", // Remove border for a cleaner look
                             padding: "10px 20px",
@@ -60,7 +60,7 @@ function FrequencyDial() {
                 <button
                     onClick={validateSelection}
                     style={{
-                        backgroundColor: "#D3B0FF",  // Light Purple
+                        backgroundColor: "#0fb300",  // Light Purple
                         color: "black",  // Text color
                         border: "none",
                         padding: "10px 20px",
@@ -74,7 +74,7 @@ function FrequencyDial() {
             )}
 
             {/* Feedback Message */}
-            {isCorrect !== null && isCorrect && <p style={{ color: "green" }}>Mission Control Distress Code: 39741</p>}
+            {isCorrect !== null && isCorrect && <p style={{ color: "green" }}>Mission Control Distress Code: 74656 SOS</p>}
             {isCorrect !== null && !isCorrect && <p style={{ color: "red" }}>Mission Control Still Cant Hear You - Reset Above</p>}
 
             {/* Reset Button */}
@@ -83,7 +83,7 @@ function FrequencyDial() {
                     onClick={resetFrequency}
                     style={{
                         marginTop: "10px",
-                        backgroundColor: "#D3B0FF",
+                        backgroundColor: "#fa302d",
                         color: "black",
                         border: "none",
                         padding: "10px 20px",

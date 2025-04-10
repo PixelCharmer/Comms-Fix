@@ -4,17 +4,17 @@ import FrequencyDial from "./FrequencyDial";
 import "../styles.css";
 
 const wires = [
-    { id: "145.7", correctPort: "MHz", isCorrect: true },
-    { id: "98.5", correctPort: "GHz", isCorrect: true },
-    { id: "210.3", correctPort: "GHz", isCorrect: false },
-    { id: "121.5", correctPort: "MHz", isCorrect: false },
-    { id: "446.8", correctPort: "kHz", isCorrect: true },
-    { id: "258.4", correctPort: "kHz", isCorrect: false },
+    { id: "112.9", correctPort: "MHz", isCorrect: true },
+    { id: "77.4", correctPort: "GHz", isCorrect: true },
+    { id: "303.1", correctPort: "GHz", isCorrect: false },
+    { id: "134.2", correctPort: "MHz", isCorrect: false },
+    { id: "499.6", correctPort: "kHz", isCorrect: true },
+    { id: "275.8", correctPort: "kHz", isCorrect: false },
 ];
 
 const ports = ["GHz", "kHz", "MHz"];
 
-const connectionColorsList = ["pink", "orange", "violet", "cyan"];
+const connectionColorsList = ["pink", "orange", "blue", "yellow"];
 
 function WiringPuzzle() {
     const { setWiring } = useGameStore();
@@ -49,9 +49,9 @@ function WiringPuzzle() {
 
     const validateWiring = () => {
         const correctConnections = {
-            "145.7": "MHz",
-            "98.5": "GHz",
-            "446.8": "kHz"
+            "303.1": "kHz",
+            "275.8": "GHz",
+            "77.4": "MHz"
         };
 
         let allCorrect = true;
@@ -90,10 +90,10 @@ function WiringPuzzle() {
                 <div className="notes">
                     <h3>Notes</h3>
                     <ul>
-                        <li><strong>Note 1:</strong> Frequency Range: Each wire must be connected to the correct frequency.</li>
-                        <li><strong>Note 2:</strong> Wires in Disguise: Some are faulty—watch out!</li>
-                        <li><strong>Note 3:</strong> Matching Numbers: Wire and port need to match correctly.</li>
-                        <li><strong>Note 4:</strong> Completion Check: Connect 3 wires correctly. Only one wire per port!</li>
+                        <li><strong>Note 1:</strong> Only one wire per port </li>
+                        <li><strong>Note 2:</strong> Some are faulty—watch out!</li>
+                        <li><strong>Note 3:</strong> Wire and port need to match correctly.</li>
+                        <li><strong>Note 4:</strong> Only 3 connections needed </li>
                     </ul>
                 </div>
             )}
@@ -127,7 +127,7 @@ function WiringPuzzle() {
             </div>
 
             <button onClick={validateWiring}>Check Wiring</button>
-            <button onClick={resetPuzzle}>Reset Puzzle</button>
+            <button onClick={resetPuzzle}>Reset Wires</button>
 
             {isWiringCorrect && <FrequencyDial />}
         </div>
